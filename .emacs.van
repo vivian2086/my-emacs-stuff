@@ -303,14 +303,6 @@
   (visit-tags-table "/usr/local/src/gtk+-2.18.0/TAGS" ))
 
 
-(defun van-restart-gdb ()
-  "pkill process gdb and start a new one"
-  (interactive)
-  (start-process "restart gdb" "*Messages*" "pkill" "gdb")
-  ;;(kill-process "*gud-gdb*")
-  (gdb "libtool --mode=execute gdb --annotate=3 ./wireshark"))
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;    global shortcut    ;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
