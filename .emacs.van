@@ -1,0 +1,834 @@
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;; common el funcs ;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;(add-to-list 'load-path "~/.emacs.van.d/common-el")
+;(add-to-list 'load-path "~/.emacs.van.d/")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;   cedet funcs    ;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(load-file "/usr/share/emacs/site-lisp/cedet-1.0pre7/common/cedet.el")
+;(global-ede-mode 1)
+;(semantic-load-enable-code-helpers)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;    insert info func    ;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun kill-and-indent-line ()
+  (interactive)
+  (back-to-indentation)
+  (kill-line)
+  (c-indent-command)
+  )
+
+
+(defun van-cfile-head ()
+  (interactive)
+  (insert
+   (concat 
+"/* 
+ * \\File         " (buffer-name (current-buffer)) (format-time-string "
+ * \\Brief        NA
+ *
+ * \\Author       vivian2086
+ * \\Date         %Y/%m/%d
+ * \\Version      1.0
+ * Description:  NA
+ *
+ * Change log:
+ * vivian2086,    %Y/%m/%d    Create file.
+ *
+ * Copyright (C), 2010 Hrsoft corporation, All right reserved.
+ */
+" (current-time)))))
+
+
+(defun van-chdr-head ()
+  (interactive)
+  (let (uniqstr)
+    (setq uniqstr (upcase (replace-regexp-in-string "[^a-zA-Z0-9]" "_" (concat "_"
+									       (buffer-name (current-buffer)) 
+									       "_"
+									       (format-time-string "%Y_%m_%d_%H%M%S" (current-time))
+									       "_")
+						    )))
+    (insert
+     (concat 
+"/* 
+ * \\File         " (buffer-name (current-buffer)) (format-time-string "
+ * \\Brief        NA
+ *
+ * \\Author       vivian2086
+ * \\Date         %Y/%m/%d
+ * \\Version      1.0
+ * Description:  NA
+ *
+ * Change log:
+ * vivian2086,    %Y/%m/%d    Create file.
+ *
+ * Copyright (C), 2010 Hrsoft corporation, All right reserved.
+ */
+
+"(current-time))
+
+"#ifndef " uniqstr 
+"
+#define " uniqstr
+
+;"#ifndef _"(upcase (replace-regexp-in-string "[^a-zA-Z0-9]" "_" (buffer-name (current-buffer))))"_
+;#define _"(upcase (replace-regexp-in-string "[^a-zA-Z0-9]" "_" (buffer-name (current-buffer))))"_"
+								       
+"
+
+
+/* ^system */
+
+
+
+/* ^3rd parties */
+
+
+
+/* ^project(maybe some 4st parties too) */
+
+
+/* ^current dir */
+
+
+
+/* ********************************************** ^DATA */
+/* ^DATA macro */
+
+
+
+/* ^structure */
+
+
+
+/* ^extern, static var */
+
+
+
+/* ^TEXT macro */
+
+
+
+/* ************************************** ^DECLARATIONS */
+
+
+#endif /* " uniqstr " */
+
+" ))))
+
+
+
+(defun van-csrc-head ()
+  (interactive)
+  (insert
+   (concat 
+"/* 
+ * \\File         " (buffer-name (current-buffer)) (format-time-string "
+ * \\Brief        NA
+ *
+ * \\Author       vivian2086
+ * \\Date         %Y/%m/%d
+ * \\Version      1.0
+ * Description:  NA
+ *
+ * Change log:
+ * vivian2086,    %Y/%m/%d    Create file.
+ *
+ * Copyright (C), 2010 Hrsoft corporation, All right reserved.
+ */
+								       
+/* ^system */
+
+
+
+/* ^3rd parties */
+
+
+
+/* ^project(maybe some 4st parties too) */
+
+
+/* ^current dir */
+
+
+
+/* ********************************************** ^DATA */
+/* ^DATA macro */
+
+
+
+/* ^structure */
+
+
+
+/* ^extern, static var */
+
+
+
+/* ^TEXT macro */
+
+
+
+/* ************************************** ^DECLARATIONS */
+
+
+
+/* *************************************** ^DEFINITIONS */
+
+" (current-time)))))
+
+(defun van-chdr-uniq ()
+  (interactive)
+  (let (uniqstr)
+    (setq uniqstr (upcase (replace-regexp-in-string "[^a-zA-Z0-9]" "_" (concat "_"
+									       (buffer-name (current-buffer)) 
+									       "_"
+									       (format-time-string "%Y_%m_%d_%H%M%S" (current-time))
+									       "_")
+						    )))
+    (insert (concat
+"#ifndef " uniqstr
+"
+#define " uniqstr))
+
+    (end-of-buffer)
+    (insert (concat "#endif /* " uniqstr " */" ))
+    ))
+
+
+(defun van-cfun-head ()
+  (interactive)
+  (insert 
+"
+/* ****************************************************
+ * \\brief       NA.
+ * \\param [IN]  NA.
+ * \\param [OUT] NA.
+ * \\return      0 if success, else -1.
+ *
+ * 
+ ******************************************************/"
+)
+  (backward-word 5))
+
+
+(defun van-data-insert ()
+  (interactive)
+  (insert 
+   "/************************************************ ^DATA */
+"
+))
+
+
+(defun van-dec-insert ()
+  (interactive)
+  (insert 
+   "/**************************************** ^DECLARATIONS */
+"
+))
+
+(defun van-search-extern ()
+  (interactive)
+  (point-to-register ?1)
+  (beginning-of-buffer)
+  (search-forward "^extern"))
+
+(defun van-search-data ()
+  (interactive)
+  (setq record-f1-spot t)
+  (point-to-register ?1)
+  (beginning-of-buffer)
+  (search-forward "^DATA"))
+
+
+(defun van-search-text ()
+  (interactive)
+  (setq record-f1-spot t)
+  (point-to-register ?1)
+  (beginning-of-buffer)
+  (search-forward "^TEXT"))
+
+
+(defun van-search-decl ()
+  (interactive)
+  (setq record-f1-spot t)
+  (point-to-register ?1)
+  (beginning-of-buffer)
+  (search-forward "^DECLARATIONS"))
+
+
+(defun van-insert-date ()
+  (interactive)
+  (insert (format-time-string "%Y/%m/%d %H:%M:%S" (current-time))))
+
+  
+(defun van-added ()
+  (interactive)
+  (insert
+   (format-time-string "Added by van. %Y/%m/%d %H:%M:%S" (current-time))))
+
+  
+(defun van-week-log-insert-time ()
+  (interactive)
+  (insert
+   (format-time-string "* week:%U. @%Y/%m/%d %H:%M:%S\n    " (current-time))))
+
+(defun van-day-log-insert-time ()
+  (interactive)
+  (insert (format-time-string "* %Y/%m/%d %H:%M:%S\n    " (current-time))))
+
+(defun save-wins-state ()
+  (interactive)
+  (setq transient-wins-state (current-window-configuration)))
+(defun restore-wins-state ()
+  (interactive)
+  (set-window-configuration transient-wins-state))
+
+
+(defun visit-tags-glib ()
+  (interactive)
+  (visit-tags-table "/usr/local/src/glib2.0-2.16.6/TAGS" ))
+
+(defun visit-tags-gtk ()
+  (interactive)
+  (visit-tags-table "/usr/local/src/gtk+-2.18.0/TAGS" ))
+
+
+(defun van-restart-gdb ()
+  "pkill process gdb and start a new one"
+  (interactive)
+  (start-process "restart gdb" "*Messages*" "pkill" "gdb")
+  ;;(kill-process "*gud-gdb*")
+  (gdb "libtool --mode=execute gdb --annotate=3 ./wireshark"))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;    global shortcut    ;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(global-set-key (kbd "C-c C-q") 'van-restart-gdb)
+(global-set-key (kbd "M-1") 'van-search-data)
+(global-set-key (kbd "M-2") 'van-search-extern)
+(global-set-key (kbd "M-3") 'van-search-decl)
+
+(global-set-key (kbd "C-x C-1") 'van-cfun-head)
+(global-set-key (kbd "C-x C-2") 'van-csrc-head)
+(global-set-key (kbd "C-x C-3") 'van-added)
+(global-set-key (kbd "C-x C-4") 'van-day-log-insert-time)
+
+
+
+
+(add-hook 'org-mode-hook
+	  '(lambda ()
+	     (local-set-key (kbd "<C-tab>")
+			    '(lambda ()
+			       (interactive) (other-window 1)))
+	     
+	     ))
+
+(add-hook 'Info-mode-hook
+	  '(lambda ()
+	     (local-set-key (kbd "M-n")
+			    '(lambda ()
+			       (interactive) (forward-line 6)))
+	     ))
+
+(global-set-key (kbd "M-Y")
+		'(lambda ()
+		   (interactive) (yank-pop -1)))
+
+(global-set-key (kbd "C-x 3")
+		'(lambda ()
+		   (interactive) (split-window-horizontally 84)))
+
+;(defvar record-f1-spot nil "used by M-a, M-1...")
+;(setq record-f1-spot nil)
+;(cond ((not record-f1-spot)
+       ;(setq record-f1-spot t)
+
+(global-set-key (kbd "M-a")
+		'(lambda () 
+		   (interactive) 
+		   (point-to-register ?1)
+		   (c-beginning-of-defun)
+		   (search-forward "{")
+		   (move-end-of-line 1)
+		   (newline-and-indent))
+		)
+		   
+(global-set-key (kbd "M-n") '(lambda () (interactive) (forward-line 6) (back-to-indentation)))
+(global-set-key (kbd "M-p") '(lambda () (interactive) (forward-line -6) (back-to-indentation)))
+(global-set-key [f1] '(lambda () (interactive) (point-to-register ?1)))
+(global-set-key [C-f1] '(lambda () (interactive) (setq record-f1-spot nil) (jump-to-register ?1)))
+(global-set-key [f2] '(lambda () (interactive) (point-to-register ?2)))
+(global-set-key [C-f2] '(lambda () (interactive) (jump-to-register ?2)))
+(global-set-key [f3] '(lambda () (interactive) (point-to-register ?3)))
+(global-set-key [C-f3] '(lambda () (interactive) (jump-to-register ?3)))
+(global-set-key [f4] 'save-wins-state)
+(global-set-key [C-f4] 'restore-wins-state)
+
+
+;; (global-set-key (kbd "<f5>")
+;; 		'(lambda ()
+;; 		   (interactive)
+;; 		   (compile
+;; 		    (concat "g++ " (buffer-name (current-buffer)) " -g -pg")
+;; 		   )))
+
+(global-set-key (kbd "<f5>")
+		'(lambda ()
+		   (interactive)
+		   (other-window 1)
+		   (switch-to-buffer "*compilation*")
+		   (compile "make")
+		   (other-window 1)
+		   ))
+
+(global-set-key (kbd "<C-f5>") 'compile)
+(global-set-key (kbd "<f6>") 'gdb)
+(global-set-key (kbd "<C-f6>") 'gdb-many-windows)
+(global-set-key (kbd "<C-f7>") 'lgrep)
+(global-set-key (kbd "<f7>") 'rgrep)
+(global-set-key (kbd "<C-f8>") 'tags-query-replace)
+(global-set-key (kbd "<C-tab>") 'other-window)
+(global-set-key (kbd "<f9>") 'delete-other-windows)
+(global-set-key (kbd "<C-f9>") 'delete-window)
+(global-set-key (kbd "<C-f12>") 'eshell)
+
+(global-set-key (kbd "M-[")
+		'(lambda ()
+		   (interactive)
+		   (move-beginning-of-line 1)
+		   (backward-paragraph)
+		   (back-to-indentation)
+		   ))
+(global-set-key (kbd "M-]")
+		'(lambda ()
+		   (interactive)
+		   (forward-paragraph)
+		   (back-to-indentation)
+		   ))
+
+(global-set-key (kbd "M-k") 'kill-and-indent-line)
+(global-set-key (kbd "M-K") 'kill-sentence)
+(global-set-key (kbd "<C-M-return>") 'hs-toggle-hiding)
+(global-set-key (kbd "<C-return>") 'hs-hide-all)
+(global-set-key (kbd "<M-return>") 'hs-show-all)
+(global-set-key (kbd "C-x M-w") 'clipboard-kill-ring-save)
+(global-set-key [M-S-backspace] 'keyboard-quit)
+(global-set-key (kbd "C-`") 'speedbar-get-focus)
+(global-set-key (kbd "M-F") '(lambda () (interactive) (search-forward ",")))
+(global-set-key (kbd "M-B") '(lambda () (interactive) (search-backward ",")))
+(global-set-key (kbd "<M-right>") '(lambda () (interactive) (next-buffer)))
+(global-set-key (kbd "<M-left>") '(lambda () (interactive) (previous-buffer)))
+(global-set-key (kbd "C-3") '(lambda () (interactive) (switch-to-buffer (other-buffer))))
+(global-set-key (kbd "C-2") '(lambda () (interactive) (next-buffer)))
+(global-set-key (kbd "C-1") '(lambda () (interactive) (previous-buffer)))
+(global-set-key (kbd "C-M-=") '(lambda () (interactive) (next-error)))
+(global-set-key (kbd "C-M--") '(lambda () (interactive) (previous-error)))
+(global-set-key (kbd "C-8") 'ff-find-other-file)
+(global-set-key (kbd "C--") 
+		'(lambda () 
+		   (interactive) 
+		   (other-window 1)
+		   (switch-to-buffer "*compilation*")
+		   (cond ((equal (search-backward "error:" nil t) nil)
+			  (end-of-buffer)
+			  (search-backward "error:" nil t)
+			  (compile-goto-error))
+			 (t
+			  ;(search-backward "error:" nil t)
+			  (compile-goto-error))
+			 )))
+
+
+(global-set-key (kbd "C-=") 
+		'(lambda () 
+		   (interactive) 
+		   (other-window 1)
+		   (switch-to-buffer "*compilation*")
+		   (cond ((equal (search-forward "error:" nil t) nil)
+			  (beginning-of-buffer)
+			  (search-forward "error:" nil t)
+			  (compile-goto-error)
+			  (other-window 1)
+			  (search-forward "error:" nil t)
+			  (other-window 1))
+			 (t
+			  (compile-goto-error)
+			  (other-window 1)
+			  (search-forward "error:" nil t)
+			  (other-window 1))
+			  ;(compile-goto-error))
+			 )))
+
+
+;(global-set-key (kbd "C-4") '(lambda () (interactive) (keyboard-quit)))
+;(global-set-key (kbd "M-4") '(lambda () (interactive) (keyboard-quit)))
+(global-set-key (kbd "C-4")
+		'(lambda ()
+		   (interactive)
+		   (other-window 1)
+		   (switch-to-buffer (other-buffer))
+		   (other-window 1)
+		   ))
+
+(global-set-key (kbd "M-E") 'forward-sentence)
+(global-set-key (kbd "M-e")
+		'(lambda ()
+		   (interactive)
+		   (move-end-of-line 0)
+		   ))
+(global-set-key (kbd "C-M-;")
+		'(lambda ()
+		   (interactive)
+		   (insert "/* TODO.  */")
+		   (c-indent-command)
+		   (backward-char 3)
+		   ))
+
+(global-set-key (kbd "M-M")
+		'(lambda () (interactive) (switch-to-buffer "*compilation*")))
+
+(global-set-key (kbd "M-G")
+		'(lambda () (interactive) (switch-to-buffer "*grep*")))
+
+(global-set-key (kbd "<C-next>")
+		'(lambda ()
+		   (interactive)
+		   (scroll-left (/ (window-width) 3) 20)))
+
+(global-set-key (kbd "<C-prior>")
+		'(lambda ()
+		   (interactive)
+		   (scroll-right (/ (window-width) 3) 20)))
+
+(global-set-key (kbd "<C-down>")
+		'(lambda () (interactive) (scroll-other-window)))
+
+(global-set-key (kbd "<C-up>")
+		'(lambda ()
+		   (interactive)
+		   (scroll-other-window-down (- (window-height) 5))))
+
+(global-set-key (kbd "C-9")
+		'(lambda () (interactive) (scroll-other-window)))
+
+(global-set-key (kbd "M-9")
+		'(lambda ()
+		   (interactive)
+		   (scroll-other-window-down (- (window-height) 5))))
+
+
+(global-set-key (kbd "S-SPC") 
+		'(lambda ()
+		   (interactive) (set-mark-command nil)))
+
+(global-set-key (kbd "M-S-SPC") 
+		'(lambda ()
+		   (interactive) (pop-to-mark-command)))
+
+(global-set-key (kbd "M-U")
+		'(lambda ()
+		   (interactive)
+		   (upcase-word -1)
+		   ))
+
+(global-set-key (kbd "M-u")
+		'(lambda ()
+		   (interactive)
+		   (upcase-word -1)
+		   (backward-word)
+		   ))
+		   
+(global-set-key (kbd "<C-right>")
+		'(lambda ()
+		   (interactive)
+		   (let ((win (selected-window)))
+		   (other-window 1)
+		   (scroll-left
+		    (/ (window-width) 3) 20)
+		   (select-window win))
+		))
+
+(global-set-key (kbd "<C-left>")
+		'(lambda ()
+		   (interactive)
+		   (let ((win (selected-window)))
+		   (other-window 1)
+		   (scroll-right
+		    (/ (window-width) 3) 20)
+		   (select-window win))
+		))
+
+(global-set-key (kbd "C-x C-b")
+		'(lambda ()
+		   (interactive)
+		   (list-buffers)
+		   (other-window 1)
+		   (switch-to-buffer "*Buffer List*")
+		   ))
+
+
+
+(global-set-key (kbd "C-j")
+		'(lambda ()
+		   (interactive)
+		   (move-end-of-line 1)
+		   (newline-and-indent)
+		   ))
+
+(global-set-key (kbd "C-o")
+		'(lambda ()
+		   (interactive)
+		   (back-to-indentation)
+		   (split-line)
+		   ))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;      misc      ;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; git
+(add-to-list 'load-path "~/.emacs.van.d/common-el/git-emacs")
+(require 'git-emacs)
+
+(load-file "~/.emacs.van.d/common-el/command-frequecy.el")
+(command-frequency-mode)
+(server-mode t)
+(menu-bar-mode nil)
+(tool-bar-mode nil)
+(global-hl-line-mode 1)
+(load "c-eldoc")
+(require 'c-eldoc)
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+(add-to-list 'auto-mode-alist '("\\emacs.van\\'" . lisp-mode))
+;(add-to-list 'load-path "~/.emacs.van.d/common-el/company")
+
+(setq c-eldoc-includes
+      "`pkg-config gtk+-2.0 --cflags` -I./ -I../ -I/usr/include/")
+
+
+
+(defun van-ff-no-found ()
+  (interactive)
+  ( let (filesize)
+    (setq filesize (nth 7 (file-attributes (buffer-name (current-buffer)) 'string)))
+    (cond ((and (or (equal filesize 0) (equal filesize nil)) (search ".h" (buffer-name (current-buffer))))
+	   (toggle-read-only)
+	   (van-chdr-head)))
+    ))
+
+
+(add-hook 'ff-file-created-hook
+	  (lambda ()
+	    (van-ff-no-found)
+	    )
+	  )
+
+
+(defun van-remove-hook ()
+  (interactive)
+  (remove-hook 'c-mode-hook (toggle-read-only)))
+
+(add-hook 'c++-mode-hook
+	  (lambda ()
+	    (c-set-style "k&r")
+	    (setq indent-tabs-mode nil)
+	    (toggle-read-only ())
+	    (semantic-stickyfunc-mode)
+	    (hs-minor-mode)
+	    (c-turn-on-eldoc-mode)
+	    (hide-ifdef-mode t)
+	    (setq hide-ifdef-lines t)
+	    (cwarn-mode)	  
+	    ))
+
+
+(add-hook 'c-mode-hook
+	  (lambda ()
+	    (c-set-style "k&r")
+	    (setq indent-tabs-mode nil)
+	    (toggle-read-only nil)
+	    (hs-minor-mode)
+	    (c-turn-on-eldoc-mode)
+	    (hide-ifdef-mode t)
+	    (setq hide-ifdef-lines t)
+	    (cwarn-mode)
+
+;;	    (semantic-stickyfunc-mode)
+;;	    (setq c-basic-offset 8)
+;;	    (setq tab-width 50)
+	    ))
+;;(global-semantic-stickyfunc-mode t)
+;;(global-set-key (kbd "C-`") 'semantic-speedbar-analysis)
+
+;;(setq tags-file-name "/usr/include/TAGS")
+;;(global-set-key (kbd "C-`") 'semantic-speedbar-analysis)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;    tabbar funcs    ;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'tabbar)
+;;(tabbar-mode t)
+(global-set-key (kbd "M-}") 'tabbar-forward-tab)
+(global-set-key (kbd "M-{") 'tabbar-backward-tab)
+
+(global-set-key (kbd "M-_")
+		'(lambda ()
+		   (interactive)
+		   (tabbar-backward-group)
+		   (tabbar-press-home)
+		   ))
+
+(global-set-key (kbd "M-+")
+		'(lambda ()
+		   (interactive)
+		   (tabbar-forward-group)
+		   (tabbar-press-home)
+		   ))
+
+(global-set-key (kbd "M-|") 'tabbar-press-home)
+
+;;change dired-mode conflicted key
+(add-hook 'dired-mode-hook '
+	  (lambda ()
+	    "change dired-mode's key shortcuts conflicted with tabbar-mode"
+	    (interactive)
+	    (local-set-key (kbd "M-}") 'tabbar-forward-tab)
+	    (local-set-key (kbd "M-{") 'tabbar-backward-tab)
+	    ))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;    color theme     ;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-to-list 'load-path "~/.emacs.van.d/color-theme-6.6.0/")
+(require 'color-theme)
+(load-file "~/.emacs.van.d/color-theme-mymidnight.el")
+(my-color-theme)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;    auto-complete    ;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(add-to-list 'load-path "~/.emacs.van.d/auto-complete/")
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.van.d/auto-complete//ac-dict")
+(ac-config-default)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun c-precedence ()
+  "Print c precedence table"
+  (interactive)
+  (switch-to-buffer "*C Precedence Table*")
+  (erase-buffer)
+  (insert (format "+--------------------------------------------+\n"))
+  (insert (format "| C precedence and associativity table       |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "| Operator | Type             | Associativity|\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "|  ()  []  |                  |      ->      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "|    .     |                  |      ->      |\n"))
+  (insert (format "|    ->    |                  |      ->      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "|  ++  --  | Postfix          |      ->      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "|  ++  --  | Prefix           |      <-      |\n"))
+  (insert (format "|   +  -   | Unary            |      <-      |\n"))
+  (insert (format "|   !  ~   |                  |      <-      |\n"))
+  (insert (format "|  (type)  |                  |      <-      |\n"))
+  (insert (format "|   *  &   |                  |      <-      |\n"))
+  (insert (format "|  sizeof  |                  |      <-      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "| *  /  %%  |                  |      ->      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "|   +  -   | Binary           |      ->      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "|  <<  >>  |                  |      ->      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "|   <  >   |                  |      ->      |\n"))
+  (insert (format "|  <=  >=  |                  |      ->      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "|  ==  !=  |                  |      ->      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "|    &     |                  |      ->      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "|    ^     |                  |      ->      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "|    |     |                  |      ->      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "|    &&    |                  |      ->      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "|    ||    |                  |      ->      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "|    ?:    |                  |      <-      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "|    =     |                  |      <-      |\n"))
+  (insert (format "|  +=  -=  |                  |      <-      |\n"))
+  (insert (format "|  *=  /=  |                  |      <-      |\n"))
+  (insert (format "|  %%=  &=  |                  |      <-      |\n"))
+  (insert (format "|  ^=  |=  |                  |      <-      |\n"))
+  (insert (format "| <<=  >>= |                  |      <-      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (insert (format "|    ,     |                  |      ->      |\n"))
+  (insert (format "+----------+------------------+--------------+\n"))
+  (goto-char (point-min))
+  (toggle-read-only t))
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;
+;;     ecb funcs     ;;
+;;;;;;;;;;;;;;;;;;;;;;;
+
+;;(add-to-list 'load-path "/usr/share/emacs/site-lisp/ecb/speedbar")
+;;(add-to-list 'load-path "/usr/share/emacs/site-lisp/ecb/eieio")
+;;(add-to-list 'load-path "/usr/share/emacs/site-lisp/ecb/semantic")
+
+;;(require 'semantic-load)
+;;(add-to-list 'load-path "/usr/share/emacs/site-lisp/ecb/ecb")
+;;(require 'ecb)
+;;(setq semantic-load-turn-everything-on 1)
+
+;;(setq ecb-tip-of-the-day nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;
+;;  desktop setting  ;;
+;;;;;;;;;;;;;;;;;;;;;;;
+
+;; (load "desktop") 
+;; (desktop-load-default)
+
+;;turn-on one of below:
+;;(desktop-save-mode)
+;;(desktop-read)
+
+(defun van-update-etags-hra3000 ()
+  "update etags of  hra3000"
+  (interactive)
+  (start-process "van update etags" "*Messages*" "van-update-etags" "/home/van-hr/projects/git-local/hr-a3000")
+  (split-window-vertically 7)
+  (switch-to-buffer "*Messages*")
+  (end-of-buffer)
+  (other-window 1))
+
