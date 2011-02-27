@@ -1,16 +1,17 @@
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;; common el funcs ;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;(add-to-list 'load-path "~/.emacs.van.d/common-el")
-;(add-to-list 'load-path "~/.emacs.van.d/")
+(add-to-list 'load-path "~/.emacs.van.d/common-el")
+(add-to-list 'load-path "~/.emacs.van.d/")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;   cedet funcs    ;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load-file "/usr/share/emacs/site-lisp/cedet-1.0pre7/common/cedet.el")
+;(load-file "~/.emacs.van.d/cedet-1.0pre7/common/cedet.el")
 ;(global-ede-mode 1)
 ;(semantic-load-enable-code-helpers)
 
@@ -793,12 +794,12 @@
 ;;     ecb funcs     ;;
 ;;;;;;;;;;;;;;;;;;;;;;;
 
-;;(add-to-list 'load-path "/usr/share/emacs/site-lisp/ecb/speedbar")
-;;(add-to-list 'load-path "/usr/share/emacs/site-lisp/ecb/eieio")
-;;(add-to-list 'load-path "/usr/share/emacs/site-lisp/ecb/semantic")
+;;(add-to-list 'load-path "~/.emacs.van.d/ecb/speedbar")
+;;(add-to-list 'load-path "~/.emacs.van.d/ecb/eieio")
+;;(add-to-list 'load-path "~/.emacs.van.d/ecb/semantic")
 
 ;;(require 'semantic-load)
-;;(add-to-list 'load-path "/usr/share/emacs/site-lisp/ecb/ecb")
+;;(add-to-list 'load-path "~/.emacs.van.d/ecb/ecb")
 ;;(require 'ecb)
 ;;(setq semantic-load-turn-everything-on 1)
 
@@ -823,4 +824,3 @@
   (switch-to-buffer "*Messages*")
   (end-of-buffer)
   (other-window 1))
-
