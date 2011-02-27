@@ -634,6 +634,14 @@
   (interactive)
   (remove-hook 'c-mode-hook (toggle-read-only)))
 
+
+(add-hook 'java-mode-hook
+	  (lambda ()
+	    (setq indent-tabs-mode nil)
+	    (toggle-read-only ())
+	    (hs-minor-mode)
+	    ))
+
 (add-hook 'c++-mode-hook
 	  (lambda ()
 	    (c-set-style "k&r")
