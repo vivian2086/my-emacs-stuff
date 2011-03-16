@@ -3,14 +3,14 @@
 ;;;;;;; common el funcs ;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;(add-to-list 'load-path "~/.emacs.van.d/common-el")
-;(add-to-list 'load-path "~/.emacs.van.d/")
+(add-to-list 'load-path "~/.emacs.van.d/common-el")
+(add-to-list 'load-path "~/.emacs.van.d/")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;   cedet funcs    ;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load-file "/usr/share/emacs/site-lisp/cedet-1.0pre7/common/cedet.el")
+;(load-file "/home/vivian/.emacs.van.d/cedet-1.0pre7/common/cedet.el")
 ;(global-ede-mode 1)
 ;(semantic-load-enable-code-helpers)
 
@@ -210,10 +210,10 @@
   (insert 
 "
 /* ****************************************************
- * \\brief       NA.
- * \\param [IN]  NA.
- * \\param [OUT] NA.
- * \\return      0 if success, else -1.
+ * \\brief		NA.
+ * \\param 	[IN]	NA.
+ * \\param	[OUT]	NA.
+ * \\return		0 if success, else -1.
  *
  * 
  ******************************************************/"
@@ -423,6 +423,7 @@
 (global-set-key (kbd "M-B") '(lambda () (interactive) (search-backward ",")))
 (global-set-key (kbd "<M-right>") '(lambda () (interactive) (next-buffer)))
 (global-set-key (kbd "<M-left>") '(lambda () (interactive) (previous-buffer)))
+;(global-set-key (kbd "C-5") '(lambda (arg) (interactive "Minput") (bookmark-jump arg)))
 (global-set-key (kbd "C-3") '(lambda () (interactive) (switch-to-buffer (other-buffer))))
 (global-set-key (kbd "C-2") '(lambda () (interactive) (next-buffer)))
 (global-set-key (kbd "C-1") '(lambda () (interactive) (previous-buffer)))
@@ -590,6 +591,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;      misc      ;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; iimage mode. org-mode image show
+(autoload 'iimage-mode "iimage" "Support Inline image minor mode." t)
+(autoload 'turn-on-iimage-mode "iimage" "Turn on Inline image minor mode." t)
 
 ;; git
 (add-to-list 'load-path "~/.emacs.van.d/common-el/git-emacs")
