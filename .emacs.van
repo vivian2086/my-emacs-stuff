@@ -828,12 +828,3 @@
 ;;turn-on one of below:
 ;;(desktop-save-mode)
 ;;(desktop-read)
-
-(defun van-update-etags-hra3000 ()
-  "update etags of  hra3000"
-  (interactive)
-  (start-process "van update etags" "*Messages*" "van-update-etags" "/home/van-hr/projects/git-local/hr-a3000")
-  (split-window-vertically 7)
-  (switch-to-buffer "*Messages*")
-  (end-of-buffer)
-  (other-window 1))

@@ -6,3 +6,6 @@ the simplest way to use:
 4. add `(load-file "~/.emacs.van.d/.emacs.van")' to your `.emacs' file
 
 THAT IT.
+
+
+test
