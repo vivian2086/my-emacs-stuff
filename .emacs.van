@@ -1,4 +1,5 @@
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;; common el funcs ;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -10,7 +11,7 @@
 ;;;;;;;   cedet funcs    ;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;(load-file "/home/vivian/.emacs.van.d/cedet-1.0pre7/common/cedet.el")
+;(load-file "~/.emacs.van.d/cedet-1.0pre7/common/cedet.el")
 ;(global-ede-mode 1)
 ;(semantic-load-enable-code-helpers)
 
@@ -638,6 +639,14 @@
   (interactive)
   (remove-hook 'c-mode-hook (toggle-read-only)))
 
+
+(add-hook 'java-mode-hook
+	  (lambda ()
+	    (setq indent-tabs-mode nil)
+	    (toggle-read-only ())
+	    (hs-minor-mode)
+	    ))
+
 (add-hook 'c++-mode-hook
 	  (lambda ()
 	    (c-set-style "k&r")
@@ -798,12 +807,12 @@
 ;;     ecb funcs     ;;
 ;;;;;;;;;;;;;;;;;;;;;;;
 
-;;(add-to-list 'load-path "/usr/share/emacs/site-lisp/ecb/speedbar")
-;;(add-to-list 'load-path "/usr/share/emacs/site-lisp/ecb/eieio")
-;;(add-to-list 'load-path "/usr/share/emacs/site-lisp/ecb/semantic")
+;;(add-to-list 'load-path "~/.emacs.van.d/ecb/speedbar")
+;;(add-to-list 'load-path "~/.emacs.van.d/ecb/eieio")
+;;(add-to-list 'load-path "~/.emacs.van.d/ecb/semantic")
 
 ;;(require 'semantic-load)
-;;(add-to-list 'load-path "/usr/share/emacs/site-lisp/ecb/ecb")
+;;(add-to-list 'load-path "~/.emacs.van.d/ecb/ecb")
 ;;(require 'ecb)
 ;;(setq semantic-load-turn-everything-on 1)
 
@@ -828,4 +837,3 @@
   (switch-to-buffer "*Messages*")
   (end-of-buffer)
   (other-window 1))
-
