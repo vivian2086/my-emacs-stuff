@@ -114,12 +114,11 @@
 /* ^extern, static var */
 
 
-
-/* ^TEXT macro */
-
-
-
 /* ************************************** ^DECLARATIONS */
+
+
+/* **************************************** ^TEXT macro */
+
 
 
 #endif /* " uniqstr " */
@@ -175,11 +174,11 @@
 
 
 
-/* ^TEXT macro */
-
-
-
 /* ************************************** ^DECLARATIONS */
+
+
+
+/* **************************************** ^TEXT macro */
 
 
 
@@ -211,10 +210,10 @@
   (insert 
 "
 /* ****************************************************
- * \\brief		NA.
- * \\param 	[IN]	NA.
- * \\param	[OUT]	NA.
- * \\return		0 if success, else -1.
+ * \\brief			  NA.
+ * \\param		[IN]	  NA.
+ * \\param		[IN/OUT]  NA.
+ * \\return			  0 if success, else -1.
  *
  * 
  ******************************************************/"
@@ -311,7 +310,7 @@
 (global-set-key (kbd "C-c C-q") 'van-restart-gdb)
 (global-set-key (kbd "M-1") 'van-search-data)
 (global-set-key (kbd "M-2") 'van-search-extern)
-(global-set-key (kbd "M-3") 'van-search-decl)
+(global-set-key (kbd "M-3") 'van-search-text)
 
 (global-set-key (kbd "C-x C-1") 'van-cfun-head)
 (global-set-key (kbd "C-x C-2") 'van-csrc-head)
