@@ -32,19 +32,19 @@
   (interactive)
   (insert
    (concat 
-"/* 
- * \\File         " (buffer-name (current-buffer)) (format-time-string "
- * \\Brief        NA
- *
- * \\Author       vivian2086
- * \\Date         %Y/%m/%d
- * \\Version      1.0
- * Description:  NA
- *
- * Change log:
- * vivian2086,    %Y/%m/%d    Create file.
- *
- * Copyright (C), 2010 Hrsoft corporation, All right reserved.
+"/** 
+ * Copyright (C), 2011 Hrsoft corporation, All right reserved.
+ * \\file         " (buffer-name (current-buffer)) (format-time-string "
+ * \\author       hrj(黄)
+ * \\date         %Y/%m/%d
+ * \\version      1.0
+ * \\verbatim     Change log:
+ * hrj,    %Y/%m/%d    Create file.
+ * \\endverbatim
+ * \\brief
+ * \\details      Description:
+ * \\verbatim     
+ * \\endverbatim
  */
 " (current-time)))))
 
@@ -60,21 +60,20 @@
 						    )))
     (insert
      (concat 
-"/* 
- * \\File         " (buffer-name (current-buffer)) (format-time-string "
- * \\Brief        NA
- *
- * \\Author       vivian2086
- * \\Date         %Y/%m/%d
- * \\Version      1.0
- * Description:  NA
- *
- * Change log:
- * vivian2086,    %Y/%m/%d    Create file.
- *
- * Copyright (C), 2010 Hrsoft corporation, All right reserved.
+"/**
+ * Copyright (C), 2011 Hrsoft corporation, All right reserved.
+ * \\file         " (buffer-name (current-buffer)) (format-time-string "
+ * \\author       hrj(黄)
+ * \\date         %Y/%m/%d
+ * \\version      1.0
+ * \\verbatim     Change log:
+ * hrj,    %Y/%m/%d    Create file.
+ * \\endverbatim
+ * \\brief
+ * \\details      Description:
+ * \\verbatim     
+ * \\endverbatim
  */
-
 "(current-time))
 
 "#ifndef " uniqstr 
@@ -131,21 +130,20 @@
   (interactive)
   (insert
    (concat 
-"/* 
- * \\File         " (buffer-name (current-buffer)) (format-time-string "
- * \\Brief        NA
- *
- * \\Author       vivian2086
- * \\Date         %Y/%m/%d
- * \\Version      1.0
- * Description:  NA
- *
- * Change log:
- * vivian2086,    %Y/%m/%d    Create file.
- *
- * Copyright (C), 2010 Hrsoft corporation, All right reserved.
+"/**
+ * Copyright (C), 2011 Hrsoft corporation, All right reserved.
+ * \\file         " (buffer-name (current-buffer)) (format-time-string "
+ * \\author       hrj(黄)
+ * \\date         %Y/%m/%d
+ * \\version      1.0
+ * \\verbatim     Change log:
+ * hrj,    %Y/%m/%d    Create file.
+ * \\endverbatim
+ * \\brief
+ * \\details      Description:
+ * \\verbatim     
+ * \\endverbatim
  */
-								       
 /* ^system */
 
 
@@ -205,20 +203,33 @@
     ))
 
 
+;; (defun van-cfun-head ()
+;;   (interactive)
+;;   (insert 
+;; "
+;; /* ****************************************************
+;;  * \\brief			  NA.
+;;  * \\param		[IN]	  NA.
+;;  * \\param		[IN/OUT]  NA.
+;;  * \\return			  0 if success, else -1.
+;;  *
+;;  * 
+;;  ******************************************************/"
+;; )
+;;   (backward-word 5))
+
 (defun van-cfun-head ()
   (interactive)
   (insert 
 "
-/* ****************************************************
- * \\brief			  NA.
- * \\param		[IN]	  NA.
- * \\param		[IN/OUT]  NA.
- * \\return			  0 if success, else -1.
- *
- * 
- ******************************************************/"
+//////////////////////////////////////////////////////
+/// \\brief	      
+/// \\param[IN]        
+/// \\return	      success:0, fail:-1.
+//////////////////////////////////////////////////////"
 )
-  (backward-word 5))
+  (forward-line -3)
+  (move-end-of-line 1))
 
 
 (defun van-data-insert ()
@@ -293,14 +304,9 @@
   (interactive)
   (set-window-configuration transient-wins-state))
 
-
-(defun visit-tags-glib ()
+(defun visit-tags-sys ()
   (interactive)
-  (visit-tags-table "/usr/local/src/glib2.0-2.16.6/TAGS" ))
-
-(defun visit-tags-gtk ()
-  (interactive)
-  (visit-tags-table "/usr/local/src/gtk+-2.18.0/TAGS" ))
+  (visit-tags-table "/usr/include/TAGS" ))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -319,7 +325,7 @@
 
 
 
-
+;; org-mode: *, |, =, _, #, [[
 (add-hook 'org-mode-hook
 	  '(lambda ()
 	     (local-set-key (kbd "<C-tab>")
@@ -476,16 +482,22 @@
 		   (other-window 1)
 		   ))
 
-(global-set-key (kbd "M-E") 'forward-sentence)
-(global-set-key (kbd "M-e")
+;(global-set-key (kbd "M-E") 'forward-sentence)
+(global-set-key (kbd "C-M-p")
 		'(lambda ()
 		   (interactive)
 		   (move-end-of-line 0)
 		   ))
+(global-set-key (kbd "C-M-n")
+		'(lambda ()
+		   (interactive)
+		   (move-end-of-line 2)
+		   ))
+
 (global-set-key (kbd "C-M-;")
 		'(lambda ()
 		   (interactive)
-		   (insert "/* TODO.  */")
+		   (insert "/** */")
 		   (c-indent-command)
 		   (backward-char 3)
 		   ))
@@ -521,7 +533,6 @@
 		'(lambda ()
 		   (interactive)
 		   (scroll-other-window-down (- (window-height) 5))))
-
 
 (global-set-key (kbd "S-SPC") 
 		'(lambda ()
@@ -597,14 +608,15 @@
 (autoload 'turn-on-iimage-mode "iimage" "Turn on Inline image minor mode." t)
 
 ;; git
-(add-to-list 'load-path "~/.emacs.van.d/common-el/git-emacs")
-(require 'git-emacs)
+;;(add-to-list 'load-path "~/.emacs.van.d/common-el/git-emacs")
+;;(require 'git-emacs)
 
 (load-file "~/.emacs.van.d/common-el/command-frequecy.el")
 (command-frequency-mode)
-(server-mode t)
-(menu-bar-mode nil)
-(tool-bar-mode nil)
+;(server-mode t)
+(menu-bar-mode 0)
+(tool-bar-mode 0)
+(scroll-bar-mode 0)
 (global-hl-line-mode 1)
 (load "c-eldoc")
 (require 'c-eldoc)
@@ -648,7 +660,8 @@
 
 (add-hook 'c++-mode-hook
 	  (lambda ()
-	    (c-set-style "k&r")
+;;	    (c-set-style "k&r")
+	    (c-set-style "stroustrup")
 	    (setq indent-tabs-mode nil)
 	    (toggle-read-only ())
 	    (semantic-stickyfunc-mode)
@@ -662,15 +675,15 @@
 
 (add-hook 'c-mode-hook
 	  (lambda ()
-	    (c-set-style "k&r")
+;;	    (c-set-style "k&r")
+	    (c-set-style "stroustrup")
 	    (setq indent-tabs-mode nil)
-	    (toggle-read-only nil)
+	    (toggle-read-only t)
 	    (hs-minor-mode)
 	    (c-turn-on-eldoc-mode)
 	    (hide-ifdef-mode t)
 	    (setq hide-ifdef-lines t)
 	    (cwarn-mode)
-
 ;;	    (semantic-stickyfunc-mode)
 ;;	    (setq c-basic-offset 8)
 ;;	    (setq tab-width 50)
@@ -722,8 +735,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'load-path "~/.emacs.van.d/color-theme-6.6.0/")
 (require 'color-theme)
+;载入my-color-theme, 不然选中行会有backgroud-highlight
 (load-file "~/.emacs.van.d/color-theme-mymidnight.el")
 (my-color-theme)
+(load-file "~/.emacs.van.d/color-theme-6.6.0/themes/color-theme-library.el")
+(color-theme-taming-mr-arneson)
+
+;; comment-out(for the use of color-theme-taming-mr-arneson) @2014/01/15 17:08:04
+;; (add-to-list 'load-path "~/.emacs.van.d/color-theme-6.6.0/")
+;; (require 'color-theme)
+;; (load-file "~/.emacs.van.d/color-theme-mymidnight.el")
+;; (my-color-theme)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -736,11 +758,17 @@
 (ac-config-default)
 
 
+;;set ibus-el  
+(add-to-list 'load-path "~/.emacs.van.d/ibus-el-0.3.2")  
+(require 'ibus)  
+(add-hook 'after-init-hook 'ibus-mode-on)  
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun c-precedence ()
+(defun van-c-precedence ()
   "Print c precedence table"
   (interactive)
   (switch-to-buffer "*C Precedence Table*")
@@ -802,6 +830,12 @@
 
 
 
+
+;; 自动识别gbk编码
+(prefer-coding-system 'chinese-gbk)
+(prefer-coding-system 'utf-8)
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;     ecb funcs     ;;
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -827,3 +861,8 @@
 ;;turn-on one of below:
 ;;(desktop-save-mode)
 ;;(desktop-read)
+
+;; (setq semantic-default-submodes '(global-semantic-idle-scheduler-mode
+;; 				  global-semantic-stickyfunc-mode
+;;                                   global-semantic-idle-summary-mode))
+;; (semantic-mode 1)
