@@ -1,7 +1,7 @@
 .the simplest way to use:
 
 1. $cd ~/
-2. $git clone git://github.com/vivian2086/my-emacs-stuff.git
+2. $git clone https://github.com/vivian2086/my-emacs-stuff.git
 3. $mv my-emacs-stuff.git .emacs.van.d
 4. add `(load-file "~/.emacs.van.d/.emacs.van")' to your `.emacs' file
 
